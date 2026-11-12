@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn Languages with Amin the Vampire 🧛</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif}
+body{background:#0a0a0f;color:#fff}
+header{position:sticky;top:0;z-index:30;background:#000;color:#fff;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #ff0033}
+header b{font-size:16px;line-height:1.2} header b span{color:#ff0033}
+header button{background:#222;color:#fff;border:1px solid #444;padding:8px 12px;border-radius:20px}
+.hero{background:linear-gradient(135deg,#000,#3a0008,#ff0033);color:#fff;padding:30px 18px;text-align:center;border-radius:0 0 30px 30px}
+.hero h1{font-size:30px;line-height:1.3}.hero h1 span{color:#ff4d6d}
+.container{max-width:1100px;margin:auto;padding:14px}
+.tabs{display:flex;gap:8px;overflow:auto;padding:10px 0}
+.tabs button{white-space:nowrap;padding:11px 16px;border-radius:25px;border:2px solid #333;background:#16161c;color:#fff;cursor:pointer;font-weight:bold}
+.tabs button.active{background:#ff0033;border-color:#ff0033}
+.langs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:650px){.langs{grid-template-columns:repeat(2,1fr)}}
+.lang-card{background:#16161c;border-radius:16px;padding:12px;text-align:center;cursor:pointer;border:2px solid transparent}
+.lang-card.active{border-color:#ff0033;transform:scale(1.03)}
+.lang-card .flag{font-size:36px}
+.card{background:#16161c;border-radius:20px;padding:16px;margin:12px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.word{background:#222;border-radius:14px;padding:12px;position:relative;cursor:pointer}
+.word b{font-size:19px;display:block}.word span{color:#bbb;font-size:14px}
+.word .speak{position:absolute;left:8px;top:8px;border:none;background:#ff0033;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer}
+input{width:100%;padding:12px;border-radius:13px;border:1px solid #444;outline:none;margin:6px 0;font-size:15px;background:#111;color:#fff}
+.btn{width:100%;padding:12px;border:none;border-radius:13px;background:#ff0033;color:#fff;font-weight:bold;cursor:pointer;margin-top:6px}
+.btn.gold{background:#d4af37;color:#000}.btn.green{background:#00b894}
+.lesson{display:flex;gap:14px;background:#16161c;border-radius:18px;overflow:hidden;margin:12px 0;border:1px solid #333}
+.lesson img{width:180px;object-fit:cover}.lesson div{padding:12px}
+@media(max-width:600px){.lesson{flex-direction:column}.lesson img{width:100%;height:160px}}
+.video{width:100%;height:240px;border:none;border-radius:14px;margin-top:10px}
+.chat-box{height:360px;overflow:auto;background:#0f0f14;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:85%;padding:10px 14px;border-radius:16px;line-height:1.7;font-size:15px}
+.msg.user{background:#ff0033;color:#fff;align-self:flex-end}.msg.ai{background:#222;align-self:flex-start}
+.quick{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.quick button{background:#2a0008;border:1px solid #ff0033;color:#ff6b8a;padding:7px 12px;border-radius:20px;cursor:pointer}
+.progress{height:10px;background:#333;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#ff0033,#d4af37)}
+footer{text-align:center;padding:20px;color:#888}
+</style>
+</head>
+<body>
+<header><b>🧛 Learn Languages<br><span>with Amin the Vampire</span></b><div><button onclick="alert('Vampire Mode ON 🧛🌕')">🌙</button></div></header>
+<div class="hero">
+<div style="font-size:60px">🧛‍♂️🌕</div>
+<h1>Learn Languages<br><span>with Amin the Vampire</span></h1>
+<p>تعلم 5 لغات مع أمين الفامباير في الليل 🌙<br>🇯🇵 يابانية • 🇩🇪 ألمانية • 🇮🇹 إيطالية • 🇬🇧 إنجليزية • 🇷🇺 روسية</p>
+<div style="background:rgba(0,0,0,.4);padding:10px;border-radius:14px;margin-top:10px">🧛 نقاط الدم: <b id="points">0</b> 🩸 | 📚 كلمات: <b id="learnedCount">0</b> | المستوى: <b id="level">مبتدئ الليل</b></div>
+</div>
+<div class="container">
+<div class="langs" id="langsBox"></div>
+<div class="tabs">
+<button class="active" onclick="switchTab('lessons',this)">🧛 دروس الفامباير</button>
+<button onclick="switchTab('words',this)">📚 50 كلمة</button>
+<button onclick="switchTab('translate',this)">🌐 ترجم</button>
+<button onclick="switchTab('ai',this)">🤖 محادثة مع الفامباير</button>
+<button onclick="switchTab('quiz',this)">🎯 اختبار الليل</button>
+</div>
+<input id="searchBox" placeholder="🔍 قلب على كلمة... حب، شكرا، قمر" oninput="render()">
+<div class="card"><b>تقدمك في <span id="curName"></span> 🧛</b><div class="progress" style="margin:8px 0"><i id="progBar" style="width:15%"></i></div><small id="progText"></small></div>
+<div id="content"></div>
+</div>
+<footer>© 2026 Learn Languages with Amin the Vampire 🧛🌕</footer>
+<script>
+const AR=["مرحبا","شكرا","حب","ماء","كتاب","صديق","صباح الخير","وداعا","نعم","لا","من فضلك","عفوا","بيت","مدرسة","معلم","طالب","طعام","خبز","تفاح","قطة","كلب","شمس","قمر","نهار","ليل","سماء","بحر","جبل","زهرة","شجرة","سيارة","طائرة","هاتف","كمبيوتر","مال","عمل","وقت","يوم","أسبوع","سنة","قلب","عين","يد","رأس","أب","أم","أخ","أخت","سعيد","كبير"];
+const TR={
+ja:{name:'اليابانية',flag:'🇯🇵',code:'ja-JP',words:["こんにちは","ありがとう","愛","水","本","友達","おはよう","さようなら","はい","いいえ","お願いします","すみません","家","学校","先生","学生","食べ物","パン","りんご","猫","犬","太陽","月","昼","夜","空","海","山","花","木","車","飛行機","電話","コンピューター","お金","仕事","時間","日","週","年","心","目","手","頭","父","母","兄","姉","嬉しい","大きい"],pron:["Konnichiwa","Arigatou","Ai","Mizu","Hon","Tomodachi","Ohayou","Sayounara","Hai","Iie","Onegaishimasu","Sumimasen","Ie","Gakkou","Sensei","Gakusei","Tabemono","Pan","Ringo","Neko","Inu","Taiyou","Tsuki","Hiru","Yoru","Sora","Umi","Yama","Hana","Ki","Kuruma","Hikouki","Denwa","Konpyuta","Okane","Shigoto","Jikan","Hi","Shuu","Toshi","Kokoro","Me","Te","Atama","Chichi","Haha","Ani","Ane","Ureshii","Ookii"]},
+de:{name:'الألمانية',flag:'🇩🇪',code:'de-DE',words:["Hallo","Danke","Liebe","Wasser","Buch","Freund","Guten Morgen","Tschüss","Ja","Nein","Bitte","Entschuldigung","Haus","Schule","Lehrer","Schüler","Essen","Brot","Apfel","Katze","Hund","Sonne","Mond","Tag","Nacht","Himmel","Meer","Berg","Blume","Baum","Auto","Flugzeug","Telefon","Computer","Geld","Arbeit","Zeit","Tag","Woche","Jahr","Herz","Auge","Hand","Kopf","Vater","Mutter","Bruder","Schwester","Glücklich","Groß"],pron:["Hallo","Danke","Liebe","Vasser","Buch","Froind","Guten Morgen","Tschüss","Ya","Nain","Bitte","Entshuldigung","Haus","Shule","Lerer","Shüler","Essen","Brot","Apfel","Katze","Hund","Zonne","Mond","Tag","Nacht","Himmel","Meer","Berg","Blume","Baum","Auto","Flugzeug","Telefon","Computer","Geld","Arbeit","Zeit","Tag","Voche","Yar","Herts","Auge","Hand","Kopf","Fater","Mutter","Bruder","Shvester","Glücklich","Gross"]},
+it:{name:'الإيطالية',flag:'🇮🇹',code:'it-IT',words:["Ciao","Grazie","Amore","Acqua","Libro","Amico","Buongiorno","Arrivederci","Sì","No","Per favore","Scusi","Casa","Scuola","Insegnante","Studente","Cibo","Pane","Mela","Gatto","Cane","Sole","Luna","Giorno","Notte","Cielo","Mare","Montagna","Fiore","Albero","Macchina","Aereo","Telefono","Computer","Soldi","Lavoro","Tempo","Giorno","Settimana","Anno","Cuore","Occhio","Mano","Testa","Padre","Madre","Fratello","Sorella","Felice","Grande"],pron:["Tchao","Grazie","Amore","Akwa","Libro","Amiko","Buondjorno","Arrivedertchi","Si","No","Per favore","Skuzi","Kasa","Skwola","Insenyante","Studente","Tchibo","Pane","Mela","Gatto","Kane","Sole","Luna","Djorno","Notte","Tchelo","Mare","Montanya","Fiore","Albero","Makkina","Aereo","Telefono","Computer","Soldi","Lavoro","Tempo","Djorno","Settimana","Anno","Kwore","Okkio","Mano","Testa","Padre","Madre","Fratello","Sorella","Felice","Grande"]},
+en:{name:'الإنجليزية',flag:'🇬🇧',code:'en-US',words:["Hello","Thank you","Love","Water","Book","Friend","Good morning","Goodbye","Yes","No","Please","Sorry","House","School","Teacher","Student","Food","Bread","Apple","Cat","Dog","Sun","Moon","Day","Night","Sky","Sea","Mountain","Flower","Tree","Car","Plane","Phone","Computer","Money","Work","Time","Day","Week","Year","Heart","Eye","Hand","Head","Father","Mother","Brother","Sister","Happy","Big"],pron:["Hello","Thank you","Love","Water","Book","Friend","Good morning","Goodbye","Yes","No","Please","Sorry","House","School","Teacher","Student","Food","Bread","Apple","Cat","Dog","Sun","Moon","Day","Night","Sky","Sea","Mountain","Flower","Tree","Car","Plane","Phone","Computer","Money","Work","Time","Day","Week","Year","Heart","Eye","Hand","Head","Father","Mother","Brother","Sister","Happy","Big"]},
+ru:{name:'الروسية',flag:'🇷🇺',code:'ru-RU',words:["Привет","Спасибо","Любовь","Вода","Книга","Друг","Доброе утро","Пока","Да","Нет","Пожалуйста","Извините","Дом","Школа","Учитель","Студент","Еда","Хлеб","Яблоко","Кошка","Собака","Солнце","Луна","День","Ночь","Небо","Море","Гора","Цветок","Дерево","Машина","Самолёт","Телефон","Компьютер","Деньги","Работа","Время","День","Неделя","Год","Сердце","Глаз","Рука","Голова","Отец","Мать","Брат","Сестра","Счастливый","Большой"],pron:["Privet","Spasibo","Lyubov","Voda","Kniga","Drug","Dobroe utro","Paka","Da","Nyet","Pozhaluysta","Izvinite","Dom","Shkola","Uchitel","Student","Yeda","Khleb","Yabloko","Koshka","Sobaka","Solntse","Luna","Den","Noch","Nebo","More","Gora","Tsvetok","Derevo","Mashina","Samolyot","Telefon","Kompyuter","Dengi","Rabota","Vremya","Den","Nedelya","God","Serdtse","Glaz","Ruka","Golova","Otets","Mat","Brat","Sestra","Schastlivy","Bolshoy"]}
+};
+const DATA={}; for(let k in TR){ DATA[k]={...TR[k], list: AR.map((ar,i)=>({ar,w:TR[k].words[i],p:TR[k].pron[i]})) } }
+const LESSONS=[
+{title:'درس الفامباير 1: التحية في الليل', img:'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600', desc:'كيف تقول مرحبا في الليل مثل الفامباير؟', video:'https://www.youtube.com/embed/dQw4w9WgXcQ', level:'مبتدئ الليل'},
+{title:'درس الفامباير 2: العائلة', img:'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600', desc:'عائلة الفامباير: أب، أم، أخ، أخت...', video:'https://www.youtube.com/embed/9bZkp7q19f0', level:'مبتدئ'},
+{title:'درس الفامباير 3: الطعام', img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600', desc:'ماء، خبز، طعام... وكيف تطلب في المطعم.', video:'https://www.youtube.com/embed/kJQP7kiw5Fk', level:'متوسط'},
+{title:'درس الفامباير 4: الحب والقمر', img:'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600', desc:'حب، قلب، قمر... درس رومانسي تحت ضوء القمر.', video:'https://www.youtube.com/embed/JGwWNGJdvx8', level:'متوسط'},
+];
+let curLang=localStorage.getItem('vamp_lang')||'ja'; let curTab='lessons'; let points=parseInt(localStorage.getItem('vamp_points')||'0'); let learned=JSON.parse(localStorage.getItem('vamp_learned')||'[]'); let quizIdx=0;
+function speak(t,code){ if('speechSynthesis' in window){ let u=new SpeechSynthesisUtterance(t); u.lang=code; u.rate=.85; speechSynthesis.speak(u);} }
+function updateHeader(){ document.getElementById('points').textContent=points; document.getElementById('learnedCount').textContent=learned.length; document.getElementById('level').textContent=points>200?'فامباير متوسط':points>500?'ملك الفامباير 👑':'مبتدئ الليل'; document.getElementById('curName').textContent=DATA[curLang].name; document.getElementById('progBar').style.width=Math.min(95,10+learned.length)+'%'; document.getElementById('progText').textContent=`تعلمت ${learned.length} كلمة من 250 • واصل يا فامباير!`; }
+function renderLangs(){ document.getElementById('langsBox').innerHTML=Object.entries(DATA).map(([k,v])=>`<div class="lang-card ${k===curLang?'active':''}" onclick="setLang('${k}')"><div class="flag">${v.flag}</div><b>${v.name}</b><small>50 كلمة</small></div>`).join('') }
+function setLang(k){ curLang=k; localStorage.setItem('vamp_lang',k); renderLangs(); render(); }
+function switchTab(t,el){ curTab=t; document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active')); el.classList.add('active'); render(); }
+function learnWord(ar){ if(!learned.includes(curLang+'|'+ar)){ learned.push(curLang+'|'+ar); localStorage.setItem('vamp_learned',JSON.stringify(learned)); } points+=10; localStorage.setItem('vamp_points',points); updateHeader(); render(); alert('أحسنت يا فامباير! +10 نقاط دم 🩸'); }
+function render(){
+  updateHeader(); const q=(document.getElementById('searchBox').value||'').toLowerCase(); const L=DATA[curLang]; let html='';
+  if(curTab==='lessons'){ html=`<div class="card"><h3>🧛 دروس الفامباير - ${L.name}</h3><p style="color:#bbb">دروس بالصور + مكتوب + فيديو</p></div>`+LESSONS.map((ls,i)=>`<div class="lesson" onclick="openLesson(${i})"><img src="${ls.img}"><div><span style="background:#ff0033;padding:4px 10px;border-radius:20px;font-size:12px">${ls.level}</span><h4 style="margin:8px 0">${ls.title} - ${L.name}</h4><p style="color:#bbb;font-size:14px;line-height:1.7">${ls.desc}</p><button class="btn" onclick="event.stopPropagation();openLesson(${i})">▶️ شاهد درس الفامباير</button></div></div>`).join('')+`<div id="lessonDetail"></div>`; }
+  if(curTab==='words'){ let list=L.list.filter(x=>!q||x.ar.includes(q)||x.w.toLowerCase().includes(q)); html=`<div class="card"><h3>📚 50 كلمة في ${L.name} 🧛</h3><div class="grid">${list.map((it,idx)=>`<div class="word" onclick="speak('${it.w}','${L.code}')"><button class="speak" onclick="event.stopPropagation();speak('${it.w}','${L.code}')">🔊</button><b>${idx+1}. ${it.w}</b><span>${it.ar} • ${it.p}</span><br><button onclick="event.stopPropagation();learnWord('${it.ar}')" style="margin-top:6px;border:none;background:#00b894;color:#fff;padding:6px 12px;border-radius:20px;cursor:pointer">✅ تعلمتها</button></div>`).join('')}</div></div>`; }
+  if(curTab==='translate'){ html=`<div class="card"><h3>🌐 ترجم مع الفامباير - ${L.name}</h3><input id="trIn" placeholder="اكتب بالعربية: حب، شكرا، قمر..."><button class="btn" onclick="doTr()">ترجم 🧛</button><div id="trOut"></div></div>`; }
+  if(curTab==='ai'){ html=`<div class="card"><h3>🤖🧛 محادثة مع أمين الفامباير - ${L.name}</h3><p style="color:#bbb">أنا أمين الفامباير، أستيقظ في الليل لأعلمك اللغات 🌕</p><div class="quick"><button onclick="quickAI('مرحبا')">👋 مرحبا</button><button onclick="quickAI('كيف حالك؟')">كيف حالك؟</button><button onclick="quickAI('علمني كلمة حب')">علمني كلمة حب</button><button onclick="quickAI('أنا فامباير')">أنا فامباير</button></div><div class="chat-box" id="chatBox"><div class="msg ai">🧛 مرحبا! أنا أمين الفامباير في ${L.name} ${L.flag}<br>اكتب لي: "مرحبا" أو "علمني 3 كلمات" أو "كيف أقول أحبك؟"</div></div><input id="aiInput" placeholder="اكتب هنا... مثال: كيف أقول قمر؟" onkeypress="if(event.key==='Enter') sendAI()"><button class="btn" onclick="sendAI()">إرسال للفامباير 💬</button></div>`; }
+  if(curTab==='quiz'){ let item=L.list[quizIdx%50]; let opts=[...L.list].sort(()=>Math.random()-.5).slice(0,3); if(!opts.includes(item)) opts[0]=item; opts=opts.sort(()=>Math.random()-.5); html=`<div class="card"><h3>🎯 اختبار الليل - ${L.name} - سؤال ${quizIdx+1}</h3><div style="font-size:42px;text-align:center;margin:14px 0">${item.w}</div><p style="text-align:center">ما معناها؟</p>${opts.map(o=>`<button class="btn" style="background:#222;border:1px solid #444" onclick="checkQuiz(this,'${o.ar}','${item.ar}')">${o.ar}</button>`).join('')}<button class="btn gold" onclick="quizIdx++;render()">السؤال التالي ➡️</button></div>`; }
+  document.getElementById('content').innerHTML=html;
+}
+function openLesson(i){ const ls=LESSONS[i]; const L=DATA[curLang]; document.getElementById('lessonDetail').innerHTML=`<div class="card"><h3>${ls.title}</h3><img src="${ls.img}" style="width:100%;height:220px;object-fit:cover;border-radius:14px"><p style="margin:10px 0;line-height:2"><b>الشرح المكتوب من الفامباير:</b> في هذا الدرس ستتعلم 5 كلمات: ${L.list.slice(i*5,i*5+5).map(x=>x.w+' = '+x.ar).join(' ، ')}.</p><iframe class="video" src="${ls.video}" allowfullscreen></iframe><button class="btn green" onclick="points+=20;localStorage.setItem('vamp_points',points);updateHeader();alert('أكملت درس الفامباير! +20 نقطة دم 🩸')">✅ أكملت الدرس</button></div>`; document.getElementById('lessonDetail').scrollIntoView({behavior:'smooth'}); }
+function doTr(){ const v=document.getElementById('trIn').value.trim(); const L=DATA[curLang]; const f=L.list.find(x=>x.ar===v)||L.list.find(x=>x.ar.includes(v)||v.includes(x.ar)); document.getElementById('trOut').innerHTML = f ? `<div style="background:#2a0008;padding:14px;border-radius:12px;margin-top:10px;border:1px solid #ff0033"><h2>${f.w}</h2><p>${f.ar} • النطق: ${f.p}</p><button class="btn" onclick="speak('${f.w}','${L.code}')">🔊 اسمع</button></div>` : `<p style="color:red;margin-top:10px">لم نجدها. جرب كلمة من قائمة 50 كلمة.</p>`; }
+function quickAI(t){ document.getElementById('aiInput').value=t; sendAI(); }
+function sendAI(){ const inp=document.getElementById('aiInput'); const txt=inp.value.trim(); if(!txt) return; const box=document.getElementById('chatBox'); box.innerHTML+=`<div class="msg user">${txt}</div>`; inp.value=''; setTimeout(()=>{ const L=DATA[curLang]; let reply=''; const low=txt.toLowerCase(); if(low.includes('مرحبا')||low.includes('hello')) reply=`🧛 مرحبا يا صديق الليل! في ${L.name} نقول: <b>${L.list[0].w}</b> (${L.list[0].p}) 🌕`; else if(low.includes('حب')||low.includes('love')) reply=`🧛❤️ كلمة "حب" في ${L.name} هي: <b>${L.list[2].w}</b> (${L.list[2].p})<br>الفامباير أيضاً يحب... لكنه يحب الدم أكثر 😈`; else if(low.includes('فامباير')||low.includes('vampire')) reply=`🧛 نعم! أنا أمين الفامباير! أستيقظ في الليل وأعلم اللغات. هل تريد أن تصبح فامباير مثلي؟`; else if(low.includes('قمر')||low.includes('moon')) reply=`🌕 القمر في ${L.name}: <b>${L.list[22].w}</b> (${L.list[22].p})<br>أنا أعيش تحت القمر!`; else if(low.includes('علمني')||low.includes('أتعلم')) reply=`🧛 حاضر! 3 كلمات اليوم في ${L.name}:<br>1. ${L.list[3].w} = ${L.list[3].ar}<br>2. ${L.list[4].w} = ${L.list[4].ar}<br>3. ${L.list[5].w} = ${L.list[5].ar}`; else if(low.includes('كيف')) reply=`🧛 في ${L.name}، "كيف حالك؟" نقول: <b>${L.list[0].w}؟</b><br>أنا بخير، لكنني جائع قليلاً... 🩸`; else reply=`🧛 فهمتك! جرب أن تسألني: "كيف أقول حب؟" أو "علمني 3 كلمات" أو "أنا فامباير".<br>كلمة اليوم: <b>${L.list[Math.floor(Math.random()*50)].w}</b>`; box.innerHTML+=`<div class="msg ai">${reply}</div>`; box.scrollTop=box.scrollHeight; points+=5; localStorage.setItem('vamp_points',points); updateHeader(); },600); }
+function checkQuiz(btn, chosen, correct){ if(chosen===correct){ btn.style.background='#00b894'; points+=20; localStorage.setItem('vamp_points',points); updateHeader(); alert('صحيح! +20 نقطة دم 🩸'); } else { btn.style.background='#ff0033'; alert('غلط! الجواب هو: '+correct); } }
+renderLangs(); render();
+</script>
+</body>
+  </html>
